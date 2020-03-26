@@ -1,0 +1,25 @@
+security:
+    providers:
+        main:
+            entity:
+                class: App\Entity\User
+
+    encoders:
+        App\Entity\User:
+            id: App\Security\Encoder\DefaultPasswordEncoder
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: ~
+            logout: true
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                csrf_token_generator: security.csrf.token_manager
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }
